@@ -1,8 +1,8 @@
 from django import forms
-from .models import EventDetails
+from .models import Event
 class eventForm(forms.ModelForm):
     class Meta:
-        model = EventDetails
+        model = Event
         fields = [
                 'eventManager',
                 'eventName',

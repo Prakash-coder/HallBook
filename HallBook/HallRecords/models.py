@@ -1,6 +1,6 @@
 from django.db import models
 
-class hallTable(models.Model):
+class Hall(models.Model):
     hallName = models.CharField(max_length=255)
     capacity = models.IntegerField()
     location = models.CharField(max_length=255)
@@ -16,7 +16,7 @@ class hallTable(models.Model):
     def hall_location(self):
         return self.location
 
-class EventDetails(models.Model):
+class Event(models.Model):
     
     eventManager = models.CharField(max_length=255)
     eventName = models.CharField(max_length=255)

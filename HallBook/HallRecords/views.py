@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
-from .models import hallTable,EventDetails
+from .models import Hall
 from .forms import eventForm
 
 def record_home(request):
     context = {
-        'hallTable':hallTable.objects.all()
+        'hallTable':Hall.objects.all()
     }
     return render(request,"HallRecords/home.html",context)
 

@@ -4,15 +4,16 @@ import { NavLink } from "react-router-dom";
 
 import "./Navbar.css";
 
-import { FaBars, FaTimes } from "react-icons/fa";
-
-
 export default function Navbar() {
+  const normalClassLink =
+    "px-20 md:px-2 py-2.5 hover:bg-cprimary-300 hover:text-csecond-100 rounded-md transition";
+  const activeClassLink = normalClassLink + " bg-blue-200";
 
-    const activeClassLink = "px-2 py-2.5 hover:bg-cprimary-300 hover:text-csecond-100 rounded-md transition bg-blue-200"
-    const normalClassLink = "px-2 py-2.5 hover:bg-cprimary-300 hover:text-csecond-100 rounded-md transition"
+  const loginNormalClassLink = normalClassLink + " bg-csecond-200";
 
-  return (  
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
     <div>
       <nav className="w-full rounded-sm bg-cprimary-100 px-8 py-1 text-lg text-cprimary-800 shadow-lg">
         <div className="flex items-center justify-between">
@@ -38,32 +39,121 @@ export default function Navbar() {
               </Link>
             </div>
             {/* primary nav */}
-            <div>
-              <ul className="flex items-center space-x-6">
+            <div className="w-full">
+              <ul className="hidden space-x-6 md:flex md:w-auto md:items-center">
                 <li>
                   <NavLink
                     to="/"
-                    // className={`px-2 py-2.5 hover:bg-cprimary-300 hover:text-csecond-100 rounded-md transition ${({isActive})=>isActive?"bg-red-500":"bg-black-500"}`}
-                    // className={({isActive})=>isActive?"bg-red-500":"bg-blue-500"}
-                    // className={`${({isActive})=>isActive?"bg-red-500":"bg-blue-500"}`}
-                    className={({isActive})=>isActive?activeClassLink:normalClassLink}
-                
+                    className={({ isActive }) =>
+                      isActive ? activeClassLink : normalClassLink
+                    }
                   >
                     Home
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/about"
-                  className={({isActive})=>isActive?activeClassLink:normalClassLink}
-                  >About</NavLink>
+                  <NavLink
+                    to="/about"
+                    className={({ isActive }) =>
+                      isActive ? activeClassLink : normalClassLink
+                    }
+                  >
+                    About
+                  </NavLink>
                 </li>
               </ul>
             </div>
           </div>
           {/* secondary nav */}
-          <div>
-            <NavLink to="/login" className={({isActive})=>isActive?activeClassLink:normalClassLink}>Login</NavLink>
+          <div className="hidden md:block">
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? activeClassLink : loginNormalClassLink
+              }
+            >
+              Login
+            </NavLink>
           </div>
+          {/* hamburger */}
+          <div className="md:hidden">
+            <button>
+              {isOpen ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-6 w-6 cursor-pointer"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="h-6 w-6 cursor-pointer"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+        {/* mobile menu items */}
+        {/* md:hidden min-h-[100vh] */}
+        <div className={isOpen ? "md:hidden" : "hidden"}> 
+          <ul className="mb-6 flex flex-col items-center justify-center gap-y-6 md:w-auto">
+            <li>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? activeClassLink : normalClassLink
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive ? activeClassLink : normalClassLink
+                }
+              >
+                About
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive ? activeClassLink : loginNormalClassLink
+                }
+                //   className={({ isActive }) => [
+                //     "bg-yellow-400",
+                //     isActive ? activeClassLink : normalClassLink
+                //   ].join(" ")
+                // }
+              >
+                Login
+              </NavLink>
+            </li>
+          </ul>
         </div>
       </nav>
     </div>

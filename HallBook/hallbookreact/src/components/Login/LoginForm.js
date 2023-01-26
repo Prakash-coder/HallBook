@@ -2,7 +2,6 @@ import { useState } from "react";
 import Input from "./Input";
 
 function LoginForm() {
-
   const loginFields = [
     {
       labelText: "Roll No:",
@@ -25,13 +24,13 @@ function LoginForm() {
   ];
 
   let fieldsState = {};
-  loginFields.forEach(field => fieldsState[field.id] = '')
-  console.log(fieldsState)
+  loginFields.forEach((field) => (fieldsState[field.id] = ""));
   
-  const [loginState,setLoginState]=useState(fieldsState);
+
+  const [loginState, setLoginState] = useState(fieldsState);
 
   const handleChange = (e) => {
-    setLoginState({...loginState,[e.target.id]:e.target.value})
+    setLoginState({ ...loginState, [e.target.id]: e.target.value });
   };
 
   return (

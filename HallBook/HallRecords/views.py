@@ -18,3 +18,4 @@ def book_hall(request):
     else:
         form = eventForm()
     return render(request, 'HallRecords/book_hall.html', {'form': form})
+

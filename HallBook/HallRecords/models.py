@@ -35,10 +35,7 @@ class Booking(models.Model):
     bookedHall = models.CharField(max_length=50)
     eventName = models.CharField(max_length=255)
     hallBooker = models.CharField(max_length=255)
-    
 
-
-    
     
     
     

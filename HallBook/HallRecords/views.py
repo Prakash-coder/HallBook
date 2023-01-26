@@ -4,7 +4,7 @@ from .forms import eventForm
 
 def record_home(request):
     context = {
-        'hallTable':Hall.objects.all()
+        'Halls':Hall.objects.all()
     }
     return render(request,"HallRecords/home.html",context)
 

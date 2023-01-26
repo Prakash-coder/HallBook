@@ -24,6 +24,22 @@ class Event(models.Model):
     startTime = models.TimeField()
     endTime = models.TimeField()
     
+class User(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    contact = models.CharField(max_length=255)
+    isDepartment = models.BooleanField()
+    isStudent = models.BooleanField()
+
+class Booking(models.Model):
+    bookedHall = models.CharField(max_length=50)
+    eventName = models.CharField(max_length=255)
+    hallBooker = models.CharField(max_length=255)
+    
+
+
+    
+    
     
     
         

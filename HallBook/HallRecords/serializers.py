@@ -11,7 +11,7 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = ('id','eventManager','eventName','eventDate','startTime','endTime')
 class BookingSerializer(serializers.ModelSerializer):
-    class Mata:
+    class Meta:
         model = Booking
         fields = ('id','bookedHall','eventName','hallBooker')
 class UserSerializer(serializers.ModelSerializer):

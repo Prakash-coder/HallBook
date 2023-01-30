@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Hall,Event,User,Booking
 from .forms import eventForm
 from .serializers import HallSerializer,EventSerializer,UserSerializer,BookingSerializer
-from rest_framework import viewsets
+from rest_framework import viewsets,generics
 
 def record_home(request):
     context = {
@@ -12,15 +12,9 @@ def record_home(request):
 
 
 
-def book_hall(request):
-    if request.method == 'POST':
-        form = eventForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('record_home')
-    else:
-        form = eventForm()
-    return render(request, 'HallRecords/book_hall.html', {'form': form})
+class BookHallAPIView(generics.CreateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
 
 
 class HallViewSet(viewsets.ModelViewSet):

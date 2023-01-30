@@ -3,7 +3,7 @@ from rest_framework import routers
 
 from .views import(
     record_home,
-    book_hall,
+    BookHallAPIView,
     HallViewSet,
     EventViewSet,
     UserViewSet,
@@ -24,7 +24,7 @@ router_booking.register('booking_api', BookingViewSet)
 
 urlpatterns = [
      path('', record_home, name='record_home'),
-     path('book_hall/',book_hall,name='book_hall'),
+     path('book_hall/',BookHallAPIView.as_view(),name='book_hall'),
      path('', include(router_halls.urls)),
      path('', include(router_event.urls)),
      path('', include(router_user.urls)),

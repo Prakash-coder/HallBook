@@ -3,12 +3,12 @@ import { useLocation } from "react-router-dom"
 
 function HallDetails() {
 
-    const location = useLocation
+    const {state} = useLocation();
 
   return (
 
     <>
-    {console.log(location.state.name)}
+    {console.log(state)}
     </>
   )
 }

@@ -16,9 +16,8 @@ function HallCard({
 
   const navigateToHall = (hall) => {
     console.log("navigating to hall details")
-    console.log(hall)
     let path = `/halldetail/${hall.name}`
-    navigate(path,{state:hall})
+    navigate(path,{state:{...hall}})
   }
 
   

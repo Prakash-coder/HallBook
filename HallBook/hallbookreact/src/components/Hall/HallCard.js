@@ -1,5 +1,5 @@
 import CButton from "../CButton"
-import { Link, useNavigate } from "react-router-dom"
+import {useNavigate } from "react-router-dom"
 
 
 
@@ -18,7 +18,7 @@ function HallCard({
     console.log("navigating to hall details")
     console.log(hall)
     let path = `/halldetail/${hall.name}`
-    navigate(path)
+    navigate(path,{state:hall})
   }
 
   

@@ -1,8 +1,15 @@
+import { useLocation } from "react-router-dom"
 
 
 function HallDetails() {
+
+    const location = useLocation
+
   return (
-    <div>HallDetails</div>
+
+    <>
+    {console.log(location.state.name)}
+    </>
   )
 }
 

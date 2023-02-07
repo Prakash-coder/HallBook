@@ -1,14 +1,28 @@
 import CButton from "../CButton"
+import { Link, useNavigate } from "react-router-dom"
 
-function handleHallClick(){
-  console.log("clicked")
-}
+
+
 
 
 function HallCard({
     name,
     capacity,
 }) {
+
+  const hall = {name,capacity}
+
+  const navigate = useNavigate()
+
+  const navigateToHall = (hall) => {
+    console.log("navigating to hall details")
+    console.log(hall)
+    let path = `/halldetail/${hall.name}`
+    navigate(path)
+  }
+
+  
+
   return (
     <div className="shadow-lg rounded-lg">
     <div className="flex flex-col w-full h-80 p-2">
@@ -21,7 +35,7 @@ function HallCard({
         id="hall details"
         type="button"
         btnDesc="View Hall Details"
-        onClick = {handleHallClick}
+        onClick = {() => navigateToHall(hall)}
         />
 
         <CButton

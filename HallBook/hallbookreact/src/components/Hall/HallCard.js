@@ -20,6 +20,11 @@ function HallCard({
     navigate(path,{state:{...hall}})
   }
 
+  const navigateToBookHall = (hall) => {
+    console.log("navigating to book hall")
+    let path = `/bookhall/${hall.name}`
+    navigate(path,{state:{...hall}})
+  }
   
 
   return (
@@ -41,6 +46,7 @@ function HallCard({
         id="Book Hall"
         type="button"
         btnDesc="Book Hall"
+        onClick = {()=> navigateToBookHall(hall)}
         />
 
         </div>

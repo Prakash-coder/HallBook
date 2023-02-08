@@ -9,6 +9,8 @@ function HallDetails() {
 
     <>
     {console.log(state)}
+    <div>{state.name}</div>
+    <div>{state.capacity}</div>
     </>
   )
 }

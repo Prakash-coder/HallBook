@@ -5,6 +5,7 @@ import Error from "./pages/Error"
 import Login from "./pages/Login"
 import Navbar from "./components/Navbar/Navbar"
 import HallDetails from "./components/Hall/HallDetails"
+import BookHall from "./components/Hall/BookHall"
 
 export default function App(){
     
@@ -17,6 +18,7 @@ export default function App(){
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<Login />}></Route>
                 <Route path="/halldetail/:hall" element={<HallDetails />}></Route>
+                <Route path="/bookhall/:hall" element={<BookHall />}></Route>
                 <Route path="*" element={<Error />}></Route> 
             </Routes> 
             

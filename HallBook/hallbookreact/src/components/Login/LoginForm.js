@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Input from "./Input";
 
-function LoginForm() {
+function LoginForm({id,onSubmit}) {
+  
   const loginFields = [
     {
       labelText: "Roll No:",
@@ -34,7 +35,7 @@ function LoginForm() {
   };
 
   return (
-    <form>
+    <form id={id} onSubmit={onSubmit}>
       <div>
         {loginFields.map((field) => (
           <Input

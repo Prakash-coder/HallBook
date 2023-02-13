@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
-from .models import Hall,Event,User,Booking
+from .models import Hall,Event,Booking
 from .forms import eventForm
-from .serializers import HallSerializer,EventSerializer,UserSerializer,BookingSerializer
-from rest_framework import viewsets,generics
+from .serializers import HallSerializer,EventSerializer,BookingSerializer
+from rest_framework import viewsets,generics,permissions
+from django.contrib.auth.decorators import login_required
 
 def record_home(request):
     context = {
@@ -13,6 +14,7 @@ def record_home(request):
 
 
 class BookHallAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
@@ -25,9 +27,6 @@ class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()

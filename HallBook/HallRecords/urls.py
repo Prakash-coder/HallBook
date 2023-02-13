@@ -6,7 +6,6 @@ from .views import(
     BookHallAPIView,
     HallViewSet,
     EventViewSet,
-    UserViewSet,
     BookingViewSet,
 )
 
@@ -16,8 +15,6 @@ router_halls.register('halls_api', HallViewSet)
 router_event = routers.DefaultRouter()
 router_event.register('event_api', EventViewSet)
 
-router_user = routers.DefaultRouter()
-router_user.register('user_api', UserViewSet)
 
 router_booking = routers.DefaultRouter()
 router_booking.register('booking_api', BookingViewSet)
@@ -27,7 +24,6 @@ urlpatterns = [
      path('book_hall/',BookHallAPIView.as_view(),name='book_hall'),
      path('', include(router_halls.urls)),
      path('', include(router_event.urls)),
-     path('', include(router_user.urls)),
      path('', include(router_booking.urls)),
 ]
 

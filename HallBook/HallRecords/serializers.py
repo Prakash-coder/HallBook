@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Hall,Event,Booking,User
+from .models import Hall,Event,Booking
 
 class HallSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +14,4 @@ class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = ('id','bookedHall','eventName','hallBooker')
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id','name','email','contact','isDepartment','isStudent')
+

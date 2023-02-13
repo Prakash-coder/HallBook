@@ -5,7 +5,7 @@ const HallInpputClass = `w-full max-w-sm appearance-none
                 text-cprimary-800 placeholder-gray-500
                 shadow-sm focus:z-10 focus:border-blue-500 focus:shadow-lg
                 focus:outline-none focus:ring-purple-500 sm:text-base
-                 md:w-2/6`;
+                 md:w-2/6 `;
 
 function maxDate() {
   const today = new Date();
@@ -19,13 +19,13 @@ function maxDate() {
   if (parseInt(day, 10) < 10) {
     day = "0" + day.toString();
   }
-  console.log(`${year}-${month}-${day}`);
+  //   console.log(`${year}-${month}-${day}`);
   return `${year}-${month}-${day}`;
 }
 
 function minDate() {
   let result = new Date().toISOString().split("T")[0];
-  console.log(result);
+  //   console.log(result);
   return result;
 }
 
@@ -56,7 +56,9 @@ function DatePicker() {
       setDate(date);
       setDateValid(true);
     } else {
+        setDate(minDateVal)
       setDateValid(false);
+      
     }
   };
 
@@ -71,7 +73,7 @@ function DatePicker() {
           value={date}
           required={true}
           onChange={handleChange}
-          className={HallInpputClass}
+          className={HallInpputClass+`${dateValid?"":"animate-bounceleft border-red-500"}`}
           min={minDateVal}
           max={maxDateVal}
         ></input>

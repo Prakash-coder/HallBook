@@ -1,8 +1,5 @@
-
 import { useLocation } from "react-router-dom";
 import DatePicker from "../DatePicker";
-
-
 
 function BookHall() {
   const { state } = useLocation();
@@ -16,7 +13,6 @@ function BookHall() {
           {/* date input  */}
           <DatePicker />
           {/* date input ends here */}
-          
         </form>
       </div>
     </>

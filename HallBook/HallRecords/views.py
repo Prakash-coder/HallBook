@@ -3,7 +3,7 @@ from .models import Hall,Event,Booking
 from .forms import eventForm
 from .serializers import HallSerializer,EventSerializer,BookingSerializer
 from rest_framework import viewsets,generics,permissions
-from django.contrib.auth.decorators import login_required
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 def record_home(request):
     context = {
@@ -12,9 +12,9 @@ def record_home(request):
     return render(request,"HallRecords/home.html",context)
 
 
-
 class BookHallAPIView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 

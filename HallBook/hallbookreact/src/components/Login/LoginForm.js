@@ -6,12 +6,13 @@ function LoginForm({id,onSubmit}) {
   const loginFields = [
     {
       labelText: "Roll No:",
-      labelFor: "campusRollNo",
+      labelFor: "userName",
       id: "userName",
       name: "userName",
       type: "text",
       isRequired: true,
       placeholder: "Eg. PUL070BCT542",
+      labelCustomClass :"sr-only",
     },
     {
       labelText: "Password",
@@ -21,11 +22,12 @@ function LoginForm({id,onSubmit}) {
       type: "password",
       isRequired: true,
       placeholder: "Password",
+      labelCustomClass :"sr-only",
     },
   ];
 
   let fieldsState = {};
-  loginFields.forEach((field) => (fieldsState[field.id] = ""));
+  loginFields.forEach((field) => (fieldsState[field.id] = "")); 
   
 
   const [loginState, setLoginState] = useState(fieldsState);
@@ -49,6 +51,7 @@ function LoginForm({id,onSubmit}) {
             type={field.type}
             isRequired={field.isRequired}
             placeholder={field.placeholder}
+            labelCustomClass={field.labelCustomClass}
           />
         ))}
       </div>

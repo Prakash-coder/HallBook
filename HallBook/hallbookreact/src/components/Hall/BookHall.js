@@ -1,34 +1,37 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import DatePicker from "../DatePicker";
+import DatePicker from "../Time/DatePicker";
 
-
-function checkStartTimeValid(timeVal){
+function checkStartTimeValid(timeVal) {
   const allowedMinTime = new Date();
-  allowedMinTime.setHours(6,0);
+  allowedMinTime.setHours(6, 0);
   const allowedMaxTime = new Date();
-  allowedMaxTime.setHours(17,30);
-  
+  allowedMaxTime.setHours(17, 29);
+  let [hoursVal, minutesVal] = timeVal.split(":");
+  let inputDate = new Date();
+  inputDate.setHours(hoursVal, minutesVal);
+  if (inputDate >= allowedMinTime && inputDate <= allowedMaxTime) {
+    return true;
+  } else {
+    return false;
+  }
 }
-
 
 function BookHall() {
   const { state } = useLocation();
 
   const [startTime, setStartTime] = useState("06:00");
-  const [startTimeValid,setStartTimeValid] = useState(true)
+  const [startTimeValid, setStartTimeValid] = useState(true);
 
   const handleStartTimeChange = (e) => {
-    let tempStartTime = e.target.value
-    if(checkStartTimeValid(tempStartTime)){
+    let tempStartTime = e.target.value;
+    if (checkStartTimeValid(tempStartTime)) {
       setStartTime(tempStartTime);
       setStartTimeValid(true);
+    } else {
+      setStartTime("");
+      setStartTimeValid(false);
     }
-    else{
-      setStartTime("06:00")
-      setStartTimeValid(false)
-    }
-    
   };
 
   const handleSubmit = (e) => {
@@ -49,7 +52,7 @@ function BookHall() {
           {/* start time input */}
           <div>
             <label htmlFor="">
-              <span>Time:</span>
+              <span>Event Start Time:</span>
               <input
                 type="time"
                 id="eventStartTime"
@@ -59,11 +62,11 @@ function BookHall() {
                 onChange={handleStartTimeChange}
                 min="06:00"
                 max="17:00"
-      
                 pattern="[0-9]{2}:[0-9]{2}"
                 list="startHours"
               />
-              <span class="validity"></span>
+              <span>{startTimeValid ? "valid time" : "invalid time"}</span>
+              {/* <span class="validity"></span> */}
             </label>
 
             {/* the sugggestion for the start hours */}

@@ -1,12 +1,39 @@
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import DatePicker from "../DatePicker";
+
+
+function checkStartTimeValid(timeVal){
+  const allowedMinTime = new Date();
+  allowedMinTime.setHours(6,0);
+  const allowedMaxTime = new Date();
+  allowedMaxTime.setHours(17,30);
+  
+}
+
 
 function BookHall() {
   const { state } = useLocation();
 
+  const [startTime, setStartTime] = useState("06:00");
+  const [startTimeValid,setStartTimeValid] = useState(true)
+
+  const handleStartTimeChange = (e) => {
+    let tempStartTime = e.target.value
+    if(checkStartTimeValid(tempStartTime)){
+      setStartTime(tempStartTime);
+      setStartTimeValid(true);
+    }
+    else{
+      setStartTime("06:00")
+      setStartTimeValid(false)
+    }
+    
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.value)
+    console.log(e.target.value);
   };
 
   return (
@@ -18,6 +45,46 @@ function BookHall() {
           {/* date input  */}
           <DatePicker />
           {/* date input ends here */}
+
+          {/* start time input */}
+          <div>
+            <label htmlFor="">
+              <span>Time:</span>
+              <input
+                type="time"
+                id="eventStartTime"
+                name="eventStartTime"
+                required
+                value={startTime}
+                onChange={handleStartTimeChange}
+                min="06:00"
+                max="17:00"
+      
+                pattern="[0-9]{2}:[0-9]{2}"
+                list="startHours"
+              />
+              <span class="validity"></span>
+            </label>
+
+            {/* the sugggestion for the start hours */}
+            <datalist id="startHours">
+              <option value="06:00"></option>
+              <option value="07:00"></option>
+              <option value="08:00"></option>
+
+              <option value="09:00"></option>
+              <option value="10:00"></option>
+              <option value="11:00"></option>
+              <option value="12:00"></option>
+              <option value="13:00"></option>
+
+              <option value="14:00"></option>
+              <option value="15:00"></option>
+              <option value="16:00"></option>
+              <option value="17:00"></option>
+            </datalist>
+          </div>
+          {/* start time input ends here */}
 
           <button type="submit">Submit</button>
         </form>

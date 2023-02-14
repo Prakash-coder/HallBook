@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 
+
+const InpputClass = `w-full max-w-sm appearance-none 
+                rounded-md border border-cprimary-500 px-4 py-3
+                text-cprimary-800 placeholder-gray-500
+                shadow-sm focus:z-10 focus:border-blue-500 focus:shadow-lg
+                focus:outline-none focus:ring-purple-500 sm:text-base
+                 md:w-2/6 `;
+
 function checkStartTimeValid(timeVal) {
   const allowedMinTime = new Date();
   allowedMinTime.setHours(6, 0);
@@ -93,10 +101,10 @@ function TimePicker() {
 
   return (
     <>
-      {/* start time*/}
-      <div>
-        <label>
-          <span>Event Start Time:</span>
+      {/* start time picker*/}
+      <div className="my-8">
+        <label className="flex items-center gap-4">
+          <span className="text-md font-bold ">Event Start Time:</span>
           <input
             type="time"
             id="eventStartTime"
@@ -108,9 +116,10 @@ function TimePicker() {
             max="17:00"
             pattern="[0-9]{2}:[0-9]{2}"
             list="startHours"
+            className={InpputClass+`${startTimeValid?"":"animate-bounceleft border-red-500"}`}
           />
           <span>{startTimeValid ? "valid time" : "invalid time"}</span>
-          {/* <span class="validity"></span> */}
+          
         </label>
 
         {/* the sugggestion for the start hours */}
@@ -131,12 +140,12 @@ function TimePicker() {
           <option value="17:00"></option>
         </datalist>
       </div>
-      {/* start time ends here */}
+      {/* start time picker ends here */}
 
       {/* end time */}
-      <div>
-        <label>
-          <span>Event End Time:</span>
+      <div className="my-8">
+        <label className="flex items-center gap-4">
+          <span className="text-md font-bold ">Event End Time:</span>
           <input
             type="time"
             id="eventendTime"
@@ -148,9 +157,10 @@ function TimePicker() {
             max="18:00"
             pattern="[0-9]{2}:[0-9]{2}"
             list="endHours"
+            className={InpputClass+`${endTimeValid?"":"animate-bounceleft border-red-500"}`}
           />
           <span>{endTimeValid ? "valid time" : "invalid time"}</span>
-          {/* <span class="validity"></span> */}
+          
         </label>
 
         {/* the sugggestion for the end hours */}
@@ -171,6 +181,7 @@ function TimePicker() {
           <option value="17:00"></option>
         </datalist>
       </div>
+    {/* end time picker ends here */}
     </>
   );
 }

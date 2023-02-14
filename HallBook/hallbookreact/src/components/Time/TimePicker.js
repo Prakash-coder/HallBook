@@ -179,6 +179,7 @@ function TimePicker() {
           <option value="15:00"></option>
           <option value="16:00"></option>
           <option value="17:00"></option>
+          <option value="18:00"></option>
         </datalist>
       </div>
     {/* end time picker ends here */}

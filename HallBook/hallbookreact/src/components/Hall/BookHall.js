@@ -19,7 +19,7 @@ function BookHall() {
           {/* date input  */}
           <DatePicker />
           {/* date input ends here */}
-
+          
           {/* start time input */}
           <TimePicker></TimePicker>
           {/* start time input ends here */}

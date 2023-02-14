@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-
-
 function checkStartTimeValid(timeVal) {
   const allowedMinTime = new Date();
   allowedMinTime.setHours(6, 0);
@@ -17,58 +15,163 @@ function checkStartTimeValid(timeVal) {
   }
 }
 
+function checkEndTimeValid(timeVal, startTimeVal) {
+  let [startTimeValHours, startTimeValMinutes] = startTimeVal.split(":");
+
+  const allowedMinTime = new Date();
+  allowedMinTime.setHours(
+    Number(startTimeValHours),
+    Number(startTimeValMinutes)
+  );
+
+  const allowedMaxTime = new Date();
+  allowedMaxTime.setHours(18, 0);
+
+  let inputDate = new Date();
+  let [timeValHours, timeValMinutes] = timeVal.split(":");
+
+  inputDate.setHours(timeValHours, timeValMinutes);
+  if (inputDate >= allowedMinTime && inputDate <= allowedMaxTime) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+//func to calculate the next time of step 3600
+//06:00 --> 07:00
+function calculateMinEndTime(timeVal) {
+  let [startHours, startMinutes] = timeVal.split(":");
+  let numStartHours = Number(startHours);
+  let endTimeVal = `${numStartHours >= 9 ? "" : "0"}${numStartHours + 1}:00`;
+  return endTimeVal;
+}
+
+//func to generate the array of datalist for the end time picker
+/*function endDataList(timeVal, _dataList = []) {
+  if (Number(timeVal.split(":")[0]) === 18) {
+    return;
+  } else {
+    let newVal = calculateMinEndTime(timeVal);
+    _dataList.push(newVal);
+    endDataList(newVal, _dataList);
+  }
+  return _dataList;
+}*/
+
 function TimePicker() {
   const [startTime, setStartTime] = useState("06:00");
   const [startTimeValid, setStartTimeValid] = useState(true);
+
+  let minEndTime = calculateMinEndTime(startTime);
+
+  const [endTime, setEndTime] = useState(minEndTime);
+  const [endTimeValid, setEndTimeValid] = useState(true);
 
   const handleStartTimeChange = (e) => {
     let tempStartTime = e.target.value;
     if (checkStartTimeValid(tempStartTime)) {
       setStartTime(tempStartTime);
       setStartTimeValid(true);
+      setEndTime(calculateMinEndTime(tempStartTime));
     } else {
       setStartTime("");
       setStartTimeValid(false);
     }
   };
+
+  const handleendTimeChange = (e) => {
+    let tempEndTime = e.target.value;
+    if (checkEndTimeValid(tempEndTime, startTime)) {
+      setEndTime(e.target.value);
+      setEndTimeValid(true);
+    } else {
+      setEndTime("");
+      setEndTimeValid(false);
+    }
+  };
+
   return (
-    <div>
-      <label>
-        <span>Event Start Time:</span>
-        <input
-          type="time"
-          id="eventStartTime"
-          name="eventStartTime"
-          required
-          value={startTime}
-          onChange={handleStartTimeChange}
-          min="06:00"
-          max="17:00"
-          pattern="[0-9]{2}:[0-9]{2}"
-          list="startHours"
-        />
-        <span>{startTimeValid ? "valid time" : "invalid time"}</span>
-        {/* <span class="validity"></span> */}
-      </label>
+    <>
+      {/* start time*/}
+      <div>
+        <label>
+          <span>Event Start Time:</span>
+          <input
+            type="time"
+            id="eventStartTime"
+            name="eventStartTime"
+            required
+            value={startTime}
+            onChange={handleStartTimeChange}
+            min={"06:00"}
+            max="17:00"
+            pattern="[0-9]{2}:[0-9]{2}"
+            list="startHours"
+          />
+          <span>{startTimeValid ? "valid time" : "invalid time"}</span>
+          {/* <span class="validity"></span> */}
+        </label>
 
-      {/* the sugggestion for the start hours */}
-      <datalist id="startHours">
-        <option value="06:00"></option>
-        <option value="07:00"></option>
-        <option value="08:00"></option>
+        {/* the sugggestion for the start hours */}
+        <datalist id="startHours">
+          <option value="06:00"></option>
+          <option value="07:00"></option>
+          <option value="08:00"></option>
 
-        <option value="09:00"></option>
-        <option value="10:00"></option>
-        <option value="11:00"></option>
-        <option value="12:00"></option>
-        <option value="13:00"></option>
+          <option value="09:00"></option>
+          <option value="10:00"></option>
+          <option value="11:00"></option>
+          <option value="12:00"></option>
+          <option value="13:00"></option>
 
-        <option value="14:00"></option>
-        <option value="15:00"></option>
-        <option value="16:00"></option>
-        <option value="17:00"></option>
-      </datalist>
-    </div>
+          <option value="14:00"></option>
+          <option value="15:00"></option>
+          <option value="16:00"></option>
+          <option value="17:00"></option>
+        </datalist>
+      </div>
+      {/* start time ends here */}
+
+      {/* end time */}
+      <div>
+        <label>
+          <span>Event End Time:</span>
+          <input
+            type="time"
+            id="eventendTime"
+            name="eventendTime"
+            required
+            value={endTime}
+            onChange={handleendTimeChange}
+            min={minEndTime}
+            max="18:00"
+            pattern="[0-9]{2}:[0-9]{2}"
+            list="endHours"
+          />
+          <span>{endTimeValid ? "valid time" : "invalid time"}</span>
+          {/* <span class="validity"></span> */}
+        </label>
+
+        {/* the sugggestion for the end hours */}
+        <datalist id="endHours">
+          <option value="06:00"></option>
+          <option value="07:00"></option>
+          <option value="08:00"></option>
+
+          <option value="09:00"></option>
+          <option value="10:00"></option>
+          <option value="11:00"></option>
+          <option value="12:00"></option>
+          <option value="13:00"></option>
+
+          <option value="14:00"></option>
+          <option value="15:00"></option>
+          <option value="16:00"></option>
+          <option value="17:00"></option>
+        </datalist>
+      </div>
+    </>
   );
 }
 

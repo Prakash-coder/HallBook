@@ -1,8 +1,10 @@
-from rest_framework import generics, permissions, views
+from rest_framework import generics, permissions, views, status
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import Token
+
+
 
 from .models import User
 from .serializers import RegisterSerializer
@@ -18,15 +20,22 @@ class LoginAPIView(TokenObtainPairView):
     serializer_class = TokenObtainPairSerializer
 
 
-from rest_framework.permissions import IsAuthenticated
 
+
+from rest_framework import views
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 class LogoutView(views.APIView):
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         user = request.user
-        user.jwt_secret = None
-        user.save()
+        user.auth_token.delete()
+        return Response({"message": "Successfully logged out."}, status=200)
 
-        return Response({"message": "Successfully logged out."})
+
+
+
+
+

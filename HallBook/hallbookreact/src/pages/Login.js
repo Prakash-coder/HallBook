@@ -9,6 +9,7 @@ focus:ring-0 active:bg-blue-800 active:shadow-lg md:mx-auto md:w-1/6 md:py-3`
 
 function Login() {
   const handleSubmit = (e) => {
+    console.log(e.target.userName.value,e.target.password.value)
     e.preventDefault();
     //handle authentication of user login
   };
@@ -43,12 +44,15 @@ function Login() {
       {/* header ends here */}
 
       {/* the input fileds */}
-      <LoginForm />
+      <LoginForm 
+      id="loginForm"
+      onSubmit={handleSubmit}
+      />
 
       {/* submit button */}
       <button
-        type="action"
-        onSubmit={handleSubmit}
+        type="submit"
+        form="loginForm"
         className={loginBtnClass}
       >
         Sign In

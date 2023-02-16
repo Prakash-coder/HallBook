@@ -1,16 +1,18 @@
 import { useState } from "react";
 import Input from "./Input";
 
-function LoginForm() {
+function LoginForm({id,onSubmit}) {
+  
   const loginFields = [
     {
       labelText: "Roll No:",
-      labelFor: "campusRollNo",
+      labelFor: "userName",
       id: "userName",
       name: "userName",
       type: "text",
       isRequired: true,
       placeholder: "Eg. PUL070BCT542",
+      labelCustomClass :"sr-only",
     },
     {
       labelText: "Password",
@@ -20,11 +22,12 @@ function LoginForm() {
       type: "password",
       isRequired: true,
       placeholder: "Password",
+      labelCustomClass :"sr-only",
     },
   ];
 
   let fieldsState = {};
-  loginFields.forEach((field) => (fieldsState[field.id] = ""));
+  loginFields.forEach((field) => (fieldsState[field.id] = "")); 
   
 
   const [loginState, setLoginState] = useState(fieldsState);
@@ -34,7 +37,7 @@ function LoginForm() {
   };
 
   return (
-    <form>
+    <form id={id} onSubmit={onSubmit}>
       <div>
         {loginFields.map((field) => (
           <Input
@@ -48,6 +51,7 @@ function LoginForm() {
             type={field.type}
             isRequired={field.isRequired}
             placeholder={field.placeholder}
+            labelCustomClass={field.labelCustomClass}
           />
         ))}
       </div>

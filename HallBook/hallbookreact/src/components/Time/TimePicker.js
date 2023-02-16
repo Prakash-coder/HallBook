@@ -49,7 +49,7 @@ function checkEndTimeValid(timeVal, startTimeVal) {
 //func to calculate the next time of step 3600
 //06:00 --> 07:00
 function calculateMinEndTime(timeVal) {
-  let [startHours, startMinutes] = timeVal.split(":");
+  let [startHours,] = timeVal.split(":");
   let numStartHours = Number(startHours);
   let endTimeVal = `${numStartHours >= 9 ? "" : "0"}${numStartHours + 1}:00`;
   return endTimeVal;

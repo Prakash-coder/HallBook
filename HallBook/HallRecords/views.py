@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect
-from .models import Hall
+from .models import Hall,Event,Booking
 from .forms import eventForm
-from .serializers import HallSerializer
-from rest_framework import viewsets
+from .serializers import HallSerializer,EventSerializer,BookingSerializer
+from rest_framework import viewsets,generics,permissions
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 def record_home(request):
     context = {
@@ -10,18 +11,23 @@ def record_home(request):
     }
     return render(request,"HallRecords/home.html",context)
 
+
+class BookHallAPIView(generics.CreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+
 class HallViewSet(viewsets.ModelViewSet):
     queryset = Hall.objects.all()
     serializer_class = HallSerializer
+    
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
 
 
-def book_hall(request):
-    if request.method == 'POST':
-        form = eventForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('record_home')
-    else:
-        form = eventForm()
-    return render(request, 'HallRecords/book_hall.html', {'form': form})
-
+class BookingViewSet(viewsets.ModelViewSet):
+    queryset = Booking.objects.all()
+    serializer_class = BookingSerializer

@@ -19,6 +19,7 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include("HallRecords.urls")),
+    path('api/', include('UserAuth.urls')),
 ]
 
 from django.conf import settings

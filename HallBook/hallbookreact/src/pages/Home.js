@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import HallCard from "../components/Hall/HallCard";
 
 const hallList = [
@@ -44,6 +45,36 @@ const hallList = [
 ];
 
 export default function Home() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/halls_api/")
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw response;
+      })
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:,", error);
+        setError(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+
+  if(loading) return "loading..."
+  if(error) return "error..."
+
+  console.log(data)
+
   return (
     <div className="mx-auto mt-10 flex min-h-screen max-w-4xl flex-col gap-12 p-2 md:w-2/3 md:gap-8">
       {hallList.map((hall) => (

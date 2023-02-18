@@ -2,25 +2,28 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import DatePicker from "../Time/DatePicker";
 import TimePicker from "../Time/TimePicker";
+import HallFIle from "./HallFIle";
 import HallInput from "./HallInput";
 import HallInputFields from "./HallInputFields";
+import HallTextArea from "./HallTextArea";
 
+const loginBtnClass = `relative  block rounded-lg bg-blue-500 px-6 py-4 text-base 
+font-medium uppercase leading-tight text-white shadow-md  transition duration-150 ease-in-out hover:bg-blue-700
+hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none
+focus:ring-0 active:bg-blue-800 active:shadow-lg  md:py-3`;
 
 function BookHall() {
   const { state } = useLocation();
 
-  let inputFieldsState = {"eventManager":""}
+  let inputFieldsState = {};
 
-  HallInputFields.forEach((hallField) =>(inputFieldsState[hallField.id]=''))
+  HallInputFields.forEach((hallField) => (inputFieldsState[hallField.id] = ""));
 
-  
-
-  const [inputState,setInputState] = useState(inputFieldsState);
+  const [inputState, setInputState] = useState(inputFieldsState);
 
   const handleChange = (e) => {
-    setInputState({...inputState,[e.target.id]:e.target.value})
-  }
-  
+    setInputState({ ...inputState, [e.target.id]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,53 +36,46 @@ function BookHall() {
         <div className="text-3xl font-bold">{state.name}</div>
         <div className="text-sm text-gray-500">Capacity: {state.capacity}</div>
         <form onSubmit={handleSubmit}>
-
           {/* date input  */}
           <DatePicker />
           {/* date input ends here */}
-          
+
           {/*  time input */}
           <TimePicker></TimePicker>
           {/* time input ends here */}
 
-          {/* event manager */}
+          {/* event manager,organizing club,event name,email,phone number */}
           <div>
             {HallInputFields.map((hallField) => (
               <HallInput
-              key={hallField.id}
-              labelText={hallField.labelText}
-              id={hallField.id}
-              name={hallField.name}
-              type={hallField.type}
-              inputmode={hallField.inputmode}
-              pattern={hallField.pattern}
-              isRequired={hallField.isRequired}
-              placeholder={hallField.placeholder}
-              handleChange={handleChange}
-              value={inputState[hallField.id]}
-              optionList={hallField.optionList}
-              optionListName={hallField.optionListName}
-              minLength = {hallField.minLength}
-              maxLength = {hallField.maxLength}
+                key={hallField.id}
+                labelText={hallField.labelText}
+                id={hallField.id}
+                name={hallField.name}
+                type={hallField.type}
+                inputmode={hallField.inputmode}
+                pattern={hallField.pattern}
+                isRequired={hallField.isRequired}
+                placeholder={hallField.placeholder}
+                handleChange={handleChange}
+                value={inputState[hallField.id]}
+                optionList={hallField.optionList}
+                optionListName={hallField.optionListName}
+                minLength={hallField.minLength}
+                maxLength={hallField.maxLength}
               />
             ))}
           </div>
+          {/* ends here */}
 
-          {/* <HallInput
-          key="eventManager"
-          labelText="Event Manager Name:"
-          id="eventManager"
-          name="eventManager"
-          type="text"
-          value={inputState["eventManager"]}
-          isRequired={true}
-          placeholder="Event Manager"
-          handleChange={handleChange}
-          /> */}
+          {/* brief event description */}
+          <HallTextArea />
 
+          <HallFIle />
 
-
-          <button type="submit">Submit</button>
+          <button className={loginBtnClass} type="submit">
+            Submit
+          </button>
         </form>
       </div>
     </>

@@ -45,7 +45,8 @@ const hallList = [
 ];
 
 export default function Home() {
-  const [data, setData] = useState(null);
+
+  /*const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -73,7 +74,7 @@ export default function Home() {
   if(loading) return "loading..."
   if(error) return "error..."
 
-  console.log(data)
+  console.log(data)*/
 
   return (
     <div className="mx-auto mt-10 flex min-h-screen max-w-4xl flex-col gap-12 p-2 md:w-2/3 md:gap-8">

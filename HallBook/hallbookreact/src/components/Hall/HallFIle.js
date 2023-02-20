@@ -49,6 +49,7 @@ function HallFIle() {
             id="eventDetails"
             name="eventDetails"
             onChange={handleFileChange}
+            required
             className="rounded-md border border-cprimary-500 px-4 py-3 max-w-[300px] text-cprimary-800 shadow-sm"
           />
 

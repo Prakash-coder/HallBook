@@ -14,6 +14,7 @@ focus:ring-0 active:bg-blue-800 active:shadow-lg  md:py-3`;
 
 function BookHall() {
   const { state } = useLocation();
+  
 
   let inputFieldsState = {};
 
@@ -26,8 +27,27 @@ function BookHall() {
   };
 
   const handleSubmit = (e) => {
+    
+    const file = e.target.eventDetails.files[0]
+
+
+    const formData = new FormData()
+    formData.append("eventDate",e.target.eventDate.value)
+    formData.append("eventStartTime",e.target.eventStartTime.value)
+    formData.append("eventEndTimeDate",e.target.eventendTime.value)
+    formData.append("eventManagerName",e.target.eventManager.value)
+    formData.append("organizingClub",e.target.orgClub.value)
+    formData.append("eventName",e.target.eventName.value)
+    formData.append("email",e.target.email.value)
+    formData.append("phoneNumber",e.target.pnumber.value)
+    formData.append("eventDescription",e.target.eventDesc.value)
+    formData.append(file.name,file.type)
+
+    for (const [key,value] of formData){
+      console.log(key,value);
+    }
+    
     e.preventDefault();
-    console.log(e.target.value);
   };
 
   return (

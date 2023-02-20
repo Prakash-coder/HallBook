@@ -1,12 +1,8 @@
 import React, { useState } from "react";
+import ValidIcon from "../Icons/ValidIcon";
+import InvalidIcon from "../Icons/InvalidIcon";
 
-
-const InpputClass = `w-full max-w-sm appearance-none 
-                rounded-md border border-cprimary-500 px-4 py-3
-                text-cprimary-800 placeholder-gray-500
-                shadow-sm focus:z-10 focus:border-blue-500 focus:shadow-lg
-                focus:outline-none focus:ring-purple-500 sm:text-base
-                 md:w-2/6 `;
+const InpputClass = `hallinputclass `;
 
 function checkStartTimeValid(timeVal) {
   const allowedMinTime = new Date();
@@ -49,7 +45,7 @@ function checkEndTimeValid(timeVal, startTimeVal) {
 //func to calculate the next time of step 3600
 //06:00 --> 07:00
 function calculateMinEndTime(timeVal) {
-  let [startHours,] = timeVal.split(":");
+  let [startHours] = timeVal.split(":");
   let numStartHours = Number(startHours);
   let endTimeVal = `${numStartHours >= 9 ? "" : "0"}${numStartHours + 1}:00`;
   return endTimeVal;
@@ -102,9 +98,10 @@ function TimePicker() {
   return (
     <>
       {/* start time picker*/}
-      <div className="my-8">
-        <label className="flex items-center gap-4">
+      <div className="my-6 max-w-[500px]">
+        <label className="flex flex-col gap-1">
           <span className="text-md font-bold ">Event Start Time:</span>
+          <div className="flex items-center gap-2">
           <input
             type="time"
             id="eventStartTime"
@@ -116,10 +113,13 @@ function TimePicker() {
             max="17:00"
             pattern="[0-9]{2}:[0-9]{2}"
             list="startHours"
-            className={InpputClass+`${startTimeValid?"":"animate-bounceleft border-red-500"}`}
+            className={
+              InpputClass +
+              `${startTimeValid ? "" : "animate-bounceleft border-red-500"}`
+            }
           />
-          <span>{startTimeValid ? "valid time" : "invalid time"}</span>
-          
+          <span>{startTimeValid ? <ValidIcon/> : <InvalidIcon/>}</span>
+          </div>
         </label>
 
         {/* the sugggestion for the start hours */}
@@ -143,9 +143,11 @@ function TimePicker() {
       {/* start time picker ends here */}
 
       {/* end time */}
-      <div className="my-8">
-        <label className="flex items-center gap-4">
+      <div className="my-6 max-w-[500px]">
+        <label className="flex flex-col gap-1">
+          
           <span className="text-md font-bold ">Event End Time:</span>
+          <div className="flex items-center gap-2">
           <input
             type="time"
             id="eventendTime"
@@ -157,10 +159,13 @@ function TimePicker() {
             max="18:00"
             pattern="[0-9]{2}:[0-9]{2}"
             list="endHours"
-            className={InpputClass+`${endTimeValid?"":"animate-bounceleft border-red-500"}`}
+            className={
+              InpputClass +
+              `${endTimeValid ? "" : "animate-bounceleft border-red-500"}`
+            }
           />
-          <span>{endTimeValid ? "valid time" : "invalid time"}</span>
-          
+          <span>{endTimeValid ? <ValidIcon/> : <InvalidIcon/>}</span>
+          </div>
         </label>
 
         {/* the sugggestion for the end hours */}
@@ -182,7 +187,7 @@ function TimePicker() {
           <option value="18:00"></option>
         </datalist>
       </div>
-    {/* end time picker ends here */}
+      {/* end time picker ends here */}
     </>
   );
 }

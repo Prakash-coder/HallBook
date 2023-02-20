@@ -1,11 +1,6 @@
 import React from "react";
 
-const HallInpputClass = `w-full max-w-sm appearance-none 
-                rounded-md border border-cprimary-500 px-4 py-3
-                text-cprimary-800 placeholder-gray-500
-                shadow-sm focus:z-10 focus:border-blue-500 focus:shadow-lg
-                focus:outline-none focus:ring-purple-500 sm:text-base
-                  `;
+const HallInpputClass = `hallinputclass `
 
 function HallInput({
   labelText,
@@ -31,8 +26,9 @@ function HallInput({
 
     
     <div className="my-6 max-w-[500px]">
-      <label className="flex items-center gap-4">
+      <label className="flex flex-col gap-1">
         <span className="text-base font-bold ">{labelText}</span>
+        <div className="flex items-center gap-2">
         <input
           id={id}
           name={name}
@@ -49,6 +45,7 @@ function HallInput({
           maxLength={maxLength}
         ></input>
         <span></span>
+        </div>
       </label>
       {
         optionList == null ? null: (

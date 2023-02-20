@@ -14,7 +14,6 @@ focus:ring-0 active:bg-blue-800 active:shadow-lg  md:py-3`;
 
 function BookHall() {
   const { state } = useLocation();
-  
 
   let inputFieldsState = {};
 
@@ -27,32 +26,30 @@ function BookHall() {
   };
 
   const handleSubmit = (e) => {
-    
-    const file = e.target.eventDetails.files[0]
+    const file = e.target.eventDetails.files[0];
 
+    const formData = new FormData();
+    formData.append("eventDate", e.target.eventDate.value);
+    formData.append("eventStartTime", e.target.eventStartTime.value);
+    formData.append("eventEndTimeDate", e.target.eventendTime.value);
+    formData.append("eventManagerName", e.target.eventManager.value);
+    formData.append("organizingClub", e.target.orgClub.value);
+    formData.append("eventName", e.target.eventName.value);
+    formData.append("email", e.target.email.value);
+    formData.append("phoneNumber", e.target.pnumber.value);
+    formData.append("eventDescription", e.target.eventDesc.value);
+    formData.append(file.name, file.type);
 
-    const formData = new FormData()
-    formData.append("eventDate",e.target.eventDate.value)
-    formData.append("eventStartTime",e.target.eventStartTime.value)
-    formData.append("eventEndTimeDate",e.target.eventendTime.value)
-    formData.append("eventManagerName",e.target.eventManager.value)
-    formData.append("organizingClub",e.target.orgClub.value)
-    formData.append("eventName",e.target.eventName.value)
-    formData.append("email",e.target.email.value)
-    formData.append("phoneNumber",e.target.pnumber.value)
-    formData.append("eventDescription",e.target.eventDesc.value)
-    formData.append(file.name,file.type)
-
-    for (const [key,value] of formData){
-      console.log(key,value);
+    for (const [key, value] of formData) {
+      console.log(key, value);
     }
-    
+
     e.preventDefault();
   };
 
   return (
     <>
-      <div className="mx-auto mt-6 min-h-screen w-full max-w-4xl p-4 shadow-lg">
+      <div className="mx-auto mt-6 min-h-screen w-full max-w-3xl p-4 shadow-lg">
         <div className="text-3xl font-bold">{state.name}</div>
         <div className="text-sm text-gray-500">Capacity: {state.capacity}</div>
         <form onSubmit={handleSubmit}>

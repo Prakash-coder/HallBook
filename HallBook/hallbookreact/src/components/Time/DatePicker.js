@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import ValidIcon from "../Icons/ValidIcon";
+import InvalidIcon from "../Icons/InvalidIcon";
 
-const HallInpputClass = `w-full max-w-sm appearance-none 
-                rounded-md border border-cprimary-500 px-4 py-3
-                text-cprimary-800 placeholder-gray-500
-                shadow-sm focus:z-10 focus:border-blue-500 focus:shadow-lg
-                focus:outline-none focus:ring-purple-500 sm:text-base
-                 md:w-2/6 `;
+// const HallInpputClass = `w-full max-w-sm appearance-none
+//                 rounded-md border border-cprimary-500 px-4 py-3
+//                 text-cprimary-800 placeholder-gray-500
+//                 shadow-sm focus:z-10 focus:border-blue-500 focus:shadow-lg
+//                 focus:outline-none focus:ring-purple-500 sm:text-base
+//                 `;
+
+const HallInpputClass = `hallinputclass `;
+
 
 function maxDate() {
   const today = new Date();
@@ -47,7 +52,7 @@ function checkDateValidity(date) {
 }
 
 function DatePicker() {
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(minDate());
   const [dateValid, setDateValid] = useState(true);
 
   const handleChange = (e) => {
@@ -56,16 +61,16 @@ function DatePicker() {
       setDate(date);
       setDateValid(true);
     } else {
-        setDate(minDateVal)
+      setDate("");
       setDateValid(false);
-      
     }
   };
 
   return (
-    <div className="my-8">
-      <label className="flex items-center gap-4">
-        <span className="text-md font-bold ">Date:</span>
+    <div className="my-6 max-w-[500px]">
+      <label className="flex flex-col gap-1">
+        <span className="text-md font-bold">Event Date:</span>
+        <div className="flex items-center gap-2">
         <input
           id="eventDate"
           name="eventDate"
@@ -73,11 +78,21 @@ function DatePicker() {
           value={date}
           required={true}
           onChange={handleChange}
-          className={HallInpputClass+`${dateValid?"":"animate-bounceleft border-red-500"}`}
+          className={
+            HallInpputClass +
+            `${dateValid ? "" : "animate-bounceleft border-red-500"}`
+          }
           min={minDateVal}
           max={maxDateVal}
         ></input>
-        <span>{dateValid ? "valid date" : "not valid date"}</span>
+        <span>
+          {dateValid ? (
+            <ValidIcon/>
+          ) : (
+            <InvalidIcon/>
+          )}
+        </span>
+        </div>
       </label>
     </div>
   );

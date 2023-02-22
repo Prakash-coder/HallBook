@@ -44,6 +44,26 @@ const hallList = [
   },
 ];
 
+
+function addBookings(hallList){
+  const bookings = {};  
+  const today = new Date();
+  for (let i = 0; i <= 10; i++){
+    const date = new Date(today.getTime()+i*24*3600*1000);
+    bookings[date.toISOString().slice(0,10)]= {}
+  }
+  for (const hall of hallList){
+    hall.bookings = bookings;
+  }
+}
+
+addBookings(hallList)
+//when the user supposedly submits the book hall request and the request is still pending
+hallList[0].bookings['2023-02-22']['10:00-12:00']= {user:'John',event:"orientation"}
+console.log(hallList)
+
+
+
 export default function Home() {
 
   /*const [data, setData] = useState(null);

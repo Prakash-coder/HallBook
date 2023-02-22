@@ -14,18 +14,25 @@ const HallInpputClass = `hallinputclass `;
 
 function maxDate() {
   const today = new Date();
-  let day = String(today.getDate() + 10); //selectable upto 10 days
-  let month = String(today.getMonth() + 1);
-  let year = String(today.getFullYear());
+  const res = new Date(today.getTime()+10*24*3600*1000)
 
-  if (parseInt(month, 10) < 10) {
-    month = "0" + month.toString();
-  }
-  if (parseInt(day, 10) < 10) {
-    day = "0" + day.toString();
-  }
-  //   console.log(`${year}-${month}-${day}`);
-  return `${year}-${month}-${day}`;
+  // console.log(res)
+  // console.log(res.toISOString().slice(0,10))
+
+  // let day = String(today.getDate() + 10); //selectable upto 10 days
+  // let month = String(today.getMonth() + 1);
+  // let year = String(today.getFullYear());
+
+  // if (parseInt(month, 10) < 10) {
+  //   month = "0" + month.toString();
+  // }
+  // if (parseInt(day, 10) < 10) {
+  //   day = "0" + day.toString();
+  // }
+  // //   console.log(`${year}-${month}-${day}`);
+  // return `${year}-${month}-${day}`;
+
+  return res.toISOString().slice(0,10)
 }
 
 function minDate() {
@@ -37,12 +44,14 @@ function minDate() {
 //   maybe use useeffect to call only once
 const minDateVal = minDate();
 const maxDateVal = maxDate();
+// console.log("maxdateval",maxDateVal,"mindateval",minDateVal)
 
 //to check if the input date is valid
 //used to mitigate the issue of the date being typed in by user
 function checkDateValidity(date) {
   const allowedMaxDate = new Date(maxDate());
   const allowedMinDate = new Date(minDate());
+  // console.log("max",allowedMaxDate,"min",allowedMinDate)
   const inputDate = new Date(date);
   if (inputDate >= allowedMinDate && inputDate <= allowedMaxDate) {
     return true;
@@ -51,12 +60,13 @@ function checkDateValidity(date) {
   }
 }
 
-function DatePicker() {
+function DatePicker({spanText,customDivClass}) {
   const [date, setDate] = useState(minDate());
   const [dateValid, setDateValid] = useState(true);
 
   const handleChange = (e) => {
     let date = e.target.value;
+    // console.log(date)
     if (checkDateValidity(date)) {
       setDate(date);
       setDateValid(true);
@@ -67,9 +77,9 @@ function DatePicker() {
   };
 
   return (
-    <div className="my-6 max-w-[500px]">
+    <div className={customDivClass}>
       <label className="flex flex-col gap-1">
-        <span className="text-md font-bold">Event Date:</span>
+        <span className="text-md font-bold">{spanText}</span>
         <div className="flex items-center gap-2">
         <input
           id="eventDate"

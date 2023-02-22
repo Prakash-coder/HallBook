@@ -54,7 +54,10 @@ function BookHall() {
         <div className="text-sm text-gray-500">Capacity: {state.capacity}</div>
         <form onSubmit={handleSubmit}>
           {/* date input  */}
-          <DatePicker />
+          <DatePicker
+          spanText="Event Date:"
+          customDivClass="my-6 max-w-[420px]"
+          />
           {/* date input ends here */}
 
           {/*  time input */}

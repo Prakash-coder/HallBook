@@ -1,35 +1,7 @@
 import CButton from "../CButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
-const HallInpputClass = `hallinputclass `;
-
-function maxDate() {
-  const today = new Date();
-  const res = new Date(today.getTime() + 10 * 24 * 3600 * 1000);
-  return res.toISOString().slice(0, 10);
-}
-
-function minDate() {
-  let result = new Date().toISOString().split("T")[0];
-
-  return result;
-}
-
-const minDateVal = minDate();
-const maxDateVal = maxDate();
-
-function checkDateValidity(date) {
-  const allowedMaxDate = new Date(maxDate());
-  const allowedMinDate = new Date(minDate());
-  
-  const inputDate = new Date(date);
-  if (inputDate >= allowedMinDate && inputDate <= allowedMaxDate) {
-    return true;
-  } else {
-    return false;
-  }
-}
+import DateFilter from "../Time/DateFilter";
 
 function HallCard({ id, name, capacity, slides }) {
   const hall = { id, name, capacity, slides };
@@ -48,13 +20,14 @@ function HallCard({ id, name, capacity, slides }) {
     navigate(path, { state: { ...hall } });
   };
 
-  const [date, setDate] = useState("");
 
+  //for date filer component
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0] );
 
-  function handleDateChange(e){
-    let date = e.target.value
-    if(checkDateValidity(date)){
-      setDate(date)
+  function handleDateChange(e, dateValid) {
+    let date = e.target.value;
+    if (dateValid) {
+      setDate(date);
     }
   }
 
@@ -65,26 +38,15 @@ function HallCard({ id, name, capacity, slides }) {
           <div className="flex items-center justify-between">
             <div className="text-3xl font-bold">{name}</div>
             <div>
-              <div className="my-0">
-                <label>
-                  <div>
-                    <input
-                      id={`${id}date`}
-                      name={`${name}date`}
-                      value={date}
-                      required={false}
-                      type="date"
-                      className={HallInpputClass}
-                      onChange={handleDateChange}
-                      min={minDateVal}
-                      max={maxDateVal}
-                    />
-                  </div>
-                </label>
-              </div>
+              <DateFilter
+                id={id}
+                name={name}
+                date={date}
+                handleChange={handleDateChange}
+              />
             </div>
           </div>
-          <div className="text-sm text-gray-500">{capacity}</div>
+          <div className="text-sm text-gray-500">Capacity: {capacity}</div>
         </div>
         {/* a div for the booked events and time intervals for those events needs to go here */}
         <div className="flex flex-col gap-6 md:flex-row">

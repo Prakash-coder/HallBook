@@ -7,7 +7,9 @@ function getBookedIntervals(booking) {
   const bookedIntervals = [];
   for (const interval in booking) {
     if (booking[interval]) {
-      bookedIntervals.push(interval);
+      
+      const {user,event} = booking[interval]
+      bookedIntervals.push({interval,user,event});
     }
   }
   return bookedIntervals;
@@ -123,6 +125,7 @@ function HallCard({ id, name, capacity, slides, bookings }) {
   }
 
   let bookedIntervals = getBookedIntervals(bookings[date]);
+  console.log(bookedIntervals)
 
   let unbookedIntervals = getUnbookedIntervals(bookedIntervals);
 
@@ -148,6 +151,14 @@ function HallCard({ id, name, capacity, slides, bookings }) {
           <div className="text-sm text-gray-500">Capacity: {capacity}</div>
         </div>
         {/* a div for the booked events and time intervals for those events needs to go here */}
+        <div className="text-cprimary-800 p-2">
+          <p>Booked Time Periods</p>
+          <ul>
+          {bookedIntervals.map((interval)=>(
+            <li>{interval.interval}</li>
+          ))}
+          </ul>
+        </div>
         <div className="flex flex-col gap-6 md:flex-row">
           <CButton
             id="hall details"

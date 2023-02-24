@@ -59,8 +59,9 @@ function addBookings(hallList){
 
 addBookings(hallList)
 //when the user supposedly submits the book hall request and the request is still pending
-hallList[0].bookings['2023-02-22']['10:00-12:00']= {user:'John',event:"orientation"}
-console.log(hallList)
+hallList[0].bookings['2023-02-24']['10:00-12:00']= {user:'John',event:"orientation"}
+hallList[0].bookings['2023-02-24']['14:00-15:00']= {user:'Mike',event:"initiation"}
+
 
 
 
@@ -105,6 +106,7 @@ export default function Home() {
           name={hall.name}
           capacity={hall.capacity}
           slides={hall.slides}
+          bookings={hall.bookings}
         />
       ))}
     </div>

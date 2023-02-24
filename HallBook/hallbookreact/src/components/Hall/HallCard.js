@@ -1,14 +1,9 @@
 import CButton from "../CButton";
+import VisualBar from "./VisualBar";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import DateFilter from "../Time/DateFilter";
-const {
-  parse,
-  compareAsc,
-  format,
-  differenceInMilliseconds,
-  differenceInMinutes,
-} = require("date-fns");
+const { parse, compareAsc, format } = require("date-fns");
 
 //returns the booked intervals and its details
 function getBookedIntervals(booking) {
@@ -97,23 +92,7 @@ function sortIntervals(intervals) {
   return intervalStrings;
 }
 
-//return the duration in millisecond for a given interval
-function getDuration(intervals) {
-  const intervalTimes = intervals.map((interval) => {
-    const [start, end] = interval.split("-");
-    return {
-      start: parse(start, "H:mm", new Date()),
-      end: parse(end, "H:mm", new Date()),
-    };
-  });
-  const durations = [];
-  intervalTimes.forEach((item) => {
-    const { start, end } = item;
-    const duration = differenceInMilliseconds(end, start);
-    durations.push(duration);
-  });
-  return durations;
-}
+
 
 //main starts here
 //
@@ -157,9 +136,7 @@ function HallCard({ id, name, capacity, slides, bookings }) {
   //sorting all intervals
   let sortedAllIntervals = sortIntervals(allIntervals);
   //calculate duration of each sorted interval
-  let durations = getDuration(sortedAllIntervals);
 
-  
   // console.log(Object.keys(bookings[date]))
   // for (const [key,value] of Object.entries(bookings[date])){
   //   console.log(key,value)
@@ -190,6 +167,13 @@ function HallCard({ id, name, capacity, slides, bookings }) {
             ))}
           </ul>
         </div>
+        
+          {/* <VisualBar
+            bookedIntervals={bookedIntervals}
+            unbookedIntervals={unbookedIntervals}
+            sortedAllIntervals={sortedAllIntervals}
+          /> */}
+        
         <div className="flex flex-col gap-6 md:flex-row">
           <CButton
             id="hall details"

@@ -2,8 +2,15 @@ import CButton from "../CButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import DateFilter from "../Time/DateFilter";
-const { parse,format } = require("date-fns");
+const {
+  parse,
+  compareAsc,
+  format,
+  differenceInMilliseconds,
+  differenceInMinutes,
+} = require("date-fns");
 
+//returns the booked intervals and its details
 function getBookedIntervals(booking) {
   const bookedIntervals = [];
   for (const interval in booking) {
@@ -24,7 +31,6 @@ function getBookedIntervalsOnly(booking) {
   }
   return bookedIntervals;
 }
-
 
 function getUnbookedIntervals(bookedIntervals) {
   //the fixed time periods for which booking is allowed
@@ -73,8 +79,47 @@ function getUnbookedIntervals(bookedIntervals) {
   return unbookedStrings;
 }
 
+function sortIntervals(intervals) {
+  const intervalTimes = intervals.map((interval) => {
+    const [start, end] = interval.split("-");
+    return {
+      start: parse(start, "H:mm", new Date()),
+      end: parse(end, "H:mm", new Date()),
+    };
+  });
+
+  intervalTimes.sort((a, b) => compareAsc(a.start, b.start));
+
+  const intervalStrings = intervalTimes.map(({ start, end }) => {
+    return `${format(start, "H:mm")}-${format(end, "H:mm")}`;
+  });
+
+  return intervalStrings;
+}
+
+//return the duration in millisecond for a given interval
+function getDuration(intervals) {
+  const intervalTimes = intervals.map((interval) => {
+    const [start, end] = interval.split("-");
+    return {
+      start: parse(start, "H:mm", new Date()),
+      end: parse(end, "H:mm", new Date()),
+    };
+  });
+  const durations = [];
+  intervalTimes.forEach((item) => {
+    const { start, end } = item;
+    const duration = differenceInMilliseconds(end, start);
+    durations.push(duration);
+  });
+  return durations;
+}
+
+//main starts here
+//
+//
+//
 function HallCard({ id, name, capacity, slides, bookings }) {
-  // console.log("🚀 ~ file: HallCard.js:77 ~ HallCard ~ id, name, capacity, slides, bookings:", id, name, capacity, slides, bookings)
   const hall = { id, name, capacity, slides };
 
   const navigate = useNavigate();
@@ -107,7 +152,14 @@ function HallCard({ id, name, capacity, slides, bookings }) {
   let bookedIntervals = getBookedIntervalsOnly(bookings[date]);
   //unbooked interval
   let unbookedIntervals = getUnbookedIntervals(bookedIntervals);
+  //the booked and unbooked intervls concateneated
+  let allIntervals = bookedIntervals.concat(unbookedIntervals);
+  //sorting all intervals
+  let sortedAllIntervals = sortIntervals(allIntervals);
+  //calculate duration of each sorted interval
+  let durations = getDuration(sortedAllIntervals);
 
+  
   // console.log(Object.keys(bookings[date]))
   // for (const [key,value] of Object.entries(bookings[date])){
   //   console.log(key,value)

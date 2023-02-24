@@ -2,102 +2,79 @@ import CButton from "../CButton";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import DateFilter from "../Time/DateFilter";
+const { parse,format } = require("date-fns");
 
 function getBookedIntervals(booking) {
   const bookedIntervals = [];
   for (const interval in booking) {
     if (booking[interval]) {
-      
-      const {user,event} = booking[interval]
-      bookedIntervals.push({interval,user,event});
+      const { user, event } = booking[interval];
+      bookedIntervals.push({ interval, user, event });
     }
   }
   return bookedIntervals;
 }
 
-// function getUnbookedIntervals(bookedIntervals){
-//   const unbookedIntervals = [];
-//   const earliestStart = 6
-//   const latestEnd = 18;
+function getBookedIntervalsOnly(booking) {
+  const bookedIntervals = [];
+  for (const interval in booking) {
+    if (booking[interval]) {
+      bookedIntervals.push(interval);
+    }
+  }
+  return bookedIntervals;
+}
 
-//   const firstStartHour = parseInt(bookedIntervals[0].split(':')[0]);
-//   console.log("firstStartHour",firstStartHour)
-//   for (let start = earliestStart;start < firstStartHour;start++){
-//     const end = start + 1;
-//     const interval = `${start.toString().padStart(2, '0')}:00-${end.toString().padStart(2, '0')}:00`;
-//     console.log(interval)
-//     unbookedIntervals.push(interval)
-//   }
-
-//   // const latestEndHour = parseInt(bookedIntervals[bookedIntervals.length-1].split(':')[0]);
-//   // console.log("latestEndHour",latestEndHour)
-//   // for (let end = latestEndHour;end < latestEnd;end++ ){
-//   //   const start = end+1;
-//   //   const interval = `${start.toString().padStart(2, '0')}:00-${end.toString().padStart(2, '0')}:00`;
-//   //   console.log(interval)
-//   //   unbookedIntervals.push(interval)
-//   // }
-// }
-
-// function getUnbookedIntervals(bookedIntervals) {
-//   const unbookedIntervals = [];
-//   const earliestStart = 6;
-//   const latestEnd = 18;
-
-//   let lastEndHour = earliestStart;
-
-//   //for each bookedInterval
-//   for (let i = 0; i < bookedIntervals.length; i++) {
-//     const interval = bookedIntervals[i];
-//     // console.log(interval.split('-')[0].split(':'))
-//     //getting the start hour and end hour for the interval
-//     const [startHour, startMinute] = interval
-//       .split("-")[0]
-//       .split(":")
-//       .map(Number);
-//     const [endHour, endMinute] = interval.split("-")[1].split(":").map(Number);
-//     // console.log(startHour,startMinute,endHour,endMinute)
-
-//     //generate intervals of 1 hour up to the start time of the current booked interval
-//     for (let hour = lastEndHour; hour < startHour; hour++) {
-//       const intervalStart = `${hour.toString().padStart(2, "0")}:00`;
-//       const intervalEnd = `${(hour + 1).toString().padStart(2, "0")}:00`;
-//       unbookedIntervals.push(`${intervalStart}-${intervalEnd}`);
-//     }
-
-//     lastEndHour = endHour;
-//     let intervalStart = `${startHour.toString().padStart(2, "0")}:${startMinute
-//       .toString()
-//       .padStart(2, "0")}`;
-//     while (
-//       intervalStart !==
-//       `${endHour.toString().padStart(2, "0")}:${endMinute
-//         .toString()
-//         .padStart(2, "0")}`
-//     ) {
-//       const intervalEndHour = intervalStart.split(":")[0];
-//       const intervalEndMinute =
-//         intervalStart.split(":")[1] === "30" ? "00" : "30";
-//       const intervalEnd = `${intervalEndHour}:${intervalEndMinute}`;
-//       unbookedIntervals.push(`${intervalStart}-${intervalEnd}`);
-//       intervalStart = intervalEnd;
-//     }
-//   }
-
-//   for (let hour = lastEndHour; hour < latestEnd; hour++) {
-//     const intervalStart = `${hour.toString().padStart(2, "0")}:00`;
-//     const intervalEnd = `${(hour + 1).toString().padStart(2, "0")}:00`;
-//     unbookedIntervals.push(`${intervalStart}-${intervalEnd}`);
-//   }
-
-//   console.log(unbookedIntervals);
-// }
 
 function getUnbookedIntervals(bookedIntervals) {
-  console.log(bookedIntervals);
+  //the fixed time periods for which booking is allowed
+  const startTime = parse("6:00", "H:mm", new Date());
+  const endTime = parse("18:00", "H:mm", new Date());
+
+  //parse the booked intervals into start and end time
+  const bookedTimes = bookedIntervals.map((interval) => {
+    const [start, end] = interval.split("-");
+    return {
+      start: parse(start, "H:mm", new Date()),
+      end: parse(end, "H:mm", new Date()),
+    };
+  });
+
+  //generate the unbooked intervals
+  let unbookedIntervals = [];
+  let previousEnd = startTime;
+
+  bookedTimes.forEach(({ start, end }) => {
+    //if there is a gap between previous end and current start time, designated as the unbooked interval
+    if (start > previousEnd) {
+      unbookedIntervals.push({
+        start: previousEnd,
+        end: start,
+      });
+    }
+
+    // update the previous end time
+    previousEnd = end;
+  });
+
+  //if there is a gap between last booked interval and end time,  add as unbooked interval
+  if (previousEnd < endTime) {
+    unbookedIntervals.push({
+      start: previousEnd,
+      end: endTime,
+    });
+  }
+
+  //format the unbooked intervals as in 'H:mm - H:mm' format
+  const unbookedStrings = unbookedIntervals.map(({ start, end }) => {
+    return `${format(start, "H:mm")}-${format(end, "H:mm")}`;
+  });
+
+  return unbookedStrings;
 }
 
 function HallCard({ id, name, capacity, slides, bookings }) {
+  // console.log("🚀 ~ file: HallCard.js:77 ~ HallCard ~ id, name, capacity, slides, bookings:", id, name, capacity, slides, bookings)
   const hall = { id, name, capacity, slides };
 
   const navigate = useNavigate();
@@ -114,7 +91,7 @@ function HallCard({ id, name, capacity, slides, bookings }) {
     navigate(path, { state: { ...hall } });
   };
 
-  //for date filer component
+  //for date filter component
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
   function handleDateChange(e, dateValid) {
@@ -124,9 +101,11 @@ function HallCard({ id, name, capacity, slides, bookings }) {
     }
   }
 
-  let bookedIntervals = getBookedIntervals(bookings[date]);
-  console.log(bookedIntervals)
-
+  //intervals,user,event
+  let bookedIntervalsData = getBookedIntervals(bookings[date]);
+  //interval
+  let bookedIntervals = getBookedIntervalsOnly(bookings[date]);
+  //unbooked interval
   let unbookedIntervals = getUnbookedIntervals(bookedIntervals);
 
   // console.log(Object.keys(bookings[date]))
@@ -151,12 +130,12 @@ function HallCard({ id, name, capacity, slides, bookings }) {
           <div className="text-sm text-gray-500">Capacity: {capacity}</div>
         </div>
         {/* a div for the booked events and time intervals for those events needs to go here */}
-        <div className="text-cprimary-800 p-2">
+        <div className="p-2 text-cprimary-800">
           <p>Booked Time Periods</p>
           <ul>
-          {bookedIntervals.map((interval)=>(
-            <li>{interval.interval}</li>
-          ))}
+            {bookedIntervalsData.map((interval) => (
+              <li key={interval.interval}>{interval.interval}</li> //change the key!!!
+            ))}
           </ul>
         </div>
         <div className="flex flex-col gap-6 md:flex-row">

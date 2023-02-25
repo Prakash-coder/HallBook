@@ -83,11 +83,11 @@ function VisualBar({ bookedIntervals, unbookedIntervals }) {
 
   const divs = widthArr.map((item, index) => {
     let isBooked = bookedIndex.sort().includes(index)
-    let backClass = isBooked?"bg-red-500":""
+    let backClass = isBooked?"bg-red-500":"bg-green-600"
     return (
       <div
         key={index}
-        className={`w-${item} m-2 h-4 flex-grow rounded-lg bg-green-600 `+backClass}
+        className={`w-${item} m-2 h-4 flex-grow rounded-lg `+backClass}
         style={{ flexBasis: `${item}%` }}
       ></div>
     );

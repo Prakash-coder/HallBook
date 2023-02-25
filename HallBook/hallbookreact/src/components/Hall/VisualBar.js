@@ -1,7 +1,38 @@
 import React from "react";
-const { parse, differenceInMilliseconds } = require("date-fns");
+const {
+  parse,
+  differenceInMilliseconds,
+  compareAsc,
+  format,
+} = require("date-fns");
 
-function getDuration(intervals) {
+function sortIntervals(intervals) {
+  const intervalTimes = intervals.map((interval) => {
+    const [start, end] = interval.split("-");
+    return {
+      start: parse(start, "H:mm", new Date()),
+      end: parse(end, "H:mm", new Date()),
+    };
+  });
+
+  intervalTimes.sort((a, b) => compareAsc(a.start, b.start));
+
+  const intervalStrings = intervalTimes.map(({ start, end }) => {
+    return `${format(start, "H:mm")}-${format(end, "H:mm")}`;
+  });
+
+  return intervalStrings;
+}
+
+function getDuration(bookedIntervals, unbookedIntervals, intervals) {
+  console.log(
+    "bookedIntervals",
+    bookedIntervals,
+    "unbooked intervals",
+    unbookedIntervals
+  );
+
+  console.log("sortedintervals", intervals);
   const intervalTimes = intervals.map((interval) => {
     const [start, end] = interval.split("-");
     return {
@@ -27,28 +58,42 @@ function getWidth(durations) {
   return widthArr;
 }
 
-function VisualBar({ bookedIntervals, unbookedIntervals, sortedAllIntervals }) {
-  let durations = getDuration(sortedAllIntervals);
+function VisualBar({ bookedIntervals, unbookedIntervals }) {
+  let sortedIntervals = sortIntervals(
+    bookedIntervals.concat(unbookedIntervals)
+  );
+  let durations = getDuration(
+    bookedIntervals,
+    unbookedIntervals,
+    sortedIntervals
+  );
 
   let widthArr = getWidth(durations);
 
+  let bookedIndex = [];
+
+  bookedIntervals.forEach((itemToSearch) => {
+    let index = sortedIntervals.findIndex(
+      (element) => element === itemToSearch
+    );
+    bookedIndex.push(index);
+  });
+
   console.log(widthArr);
 
-  const divs = widthArr.map((item, index) => (
-    <div
-      key={index}
-      className={`w-${item} m-2 h-4 flex-grow bg-green-600 rounded-lg`}
-      style={{ flexBasis: `${item}%` }}
-    ></div>
-  ));
+  const divs = widthArr.map((item, index) => {
+    let isBooked = bookedIndex.sort().includes(index)
+    let backClass = isBooked?"bg-red-500":""
+    return (
+      <div
+        key={index}
+        className={`w-${item} m-2 h-4 flex-grow rounded-lg bg-green-600 `+backClass}
+        style={{ flexBasis: `${item}%` }}
+      ></div>
+    );
+  });
 
-  return (
-    
-
-    <div className="flex">{divs}</div>
-
-    
-  );
+  return <div className="flex">{divs}</div>;
 }
 
 export default VisualBar;

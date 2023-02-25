@@ -92,8 +92,6 @@ function sortIntervals(intervals) {
   return intervalStrings;
 }
 
-
-
 //main starts here
 //
 //
@@ -131,11 +129,6 @@ function HallCard({ id, name, capacity, slides, bookings }) {
   let bookedIntervals = getBookedIntervalsOnly(bookings[date]);
   //unbooked interval
   let unbookedIntervals = getUnbookedIntervals(bookedIntervals);
-  //the booked and unbooked intervls concateneated
-  let allIntervals = bookedIntervals.concat(unbookedIntervals);
-  //sorting all intervals
-  let sortedAllIntervals = sortIntervals(allIntervals);
-  //calculate duration of each sorted interval
 
   // console.log(Object.keys(bookings[date]))
   // for (const [key,value] of Object.entries(bookings[date])){
@@ -167,13 +160,12 @@ function HallCard({ id, name, capacity, slides, bookings }) {
             ))}
           </ul>
         </div>
-        
-          <VisualBar
-            bookedIntervals={bookedIntervals}
-            unbookedIntervals={unbookedIntervals}
-            sortedAllIntervals={sortedAllIntervals}
-          />
-        
+
+        <VisualBar
+          bookedIntervals={bookedIntervals}
+          unbookedIntervals={unbookedIntervals}
+        />
+
         <div className="flex flex-col gap-6 md:flex-row">
           <CButton
             id="hall details"

@@ -5,19 +5,19 @@ import hallListOrg from "../components/Hall/HallList";
 //somehow works
 hallListOrg[0].bookings = {
   ...hallListOrg[0].bookings,
-  "2023-02-24": { "10:30-12:00": { user: "John", event: "orientation" } },
+  "2023-02-25": { "10:30-12:00": { user: "John", event: "orientation" } },
 };
 hallListOrg[0].bookings = {
   ...hallListOrg[0].bookings,
-  "2023-02-24": { "14:00-15:30": { user: "John", event: "orientation" } },
+  "2023-02-25": { "14:00-15:30": { user: "John", event: "orientation" } },
 };
 hallListOrg[0].bookings = {
   ...hallListOrg[0].bookings,
-  "2023-02-25": { "10:30-11:00": { user: "John", event: "orientation" } },
+  "2023-02-26": { "10:30-11:00": { user: "John", event: "orientation" } },
 };
 hallListOrg[1].bookings = {
   ...hallListOrg[0].bookings,
-  "2023-02-24": { "10:30-12:00": { user: "John", event: "orientation" } },
+  "2023-02-25": { "10:30-12:00": { user: "John", event: "orientation" } },
 };
 
 //when the user supposedly submits the book hall request and the request is still pending

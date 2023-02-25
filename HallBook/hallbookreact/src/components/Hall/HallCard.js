@@ -168,11 +168,11 @@ function HallCard({ id, name, capacity, slides, bookings }) {
           </ul>
         </div>
         
-          {/* <VisualBar
+          <VisualBar
             bookedIntervals={bookedIntervals}
             unbookedIntervals={unbookedIntervals}
             sortedAllIntervals={sortedAllIntervals}
-          /> */}
+          />
         
         <div className="flex flex-col gap-6 md:flex-row">
           <CButton

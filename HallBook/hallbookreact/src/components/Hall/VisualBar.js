@@ -21,7 +21,7 @@ function getDuration(intervals) {
 function getWidth(durations) {
   const totalDuration = Number(43200000);
   const widthArr = durations.map((item) => {
-    const width = Math.round((item / totalDuration));
+    const width = Number(Math.round((item / totalDuration) * 100));
     return width;
   });
   return widthArr;
@@ -29,14 +29,25 @@ function getWidth(durations) {
 
 function VisualBar({ bookedIntervals, unbookedIntervals, sortedAllIntervals }) {
   let durations = getDuration(sortedAllIntervals);
+
   let widthArr = getWidth(durations);
 
+  console.log(widthArr);
+
+  const divs = widthArr.map((item, index) => (
+    <div
+      key={index}
+      className={`w-${item} m-2 h-4 flex-grow bg-green-600 rounded-lg`}
+      style={{ flexBasis: `${item}%` }}
+    ></div>
+  ));
+
   return (
-    <div className="w-full h-10 border border-b-gray-800 flex gap-4">
-      {widthArr.map((item) => (
-        <div key={item} className={`bg-green-500 max-w-[50px] h-4 block z-10`}></div>
-      ))}
-    </div>
+    
+
+    <div className="flex">{divs}</div>
+
+    
   );
 }
 
